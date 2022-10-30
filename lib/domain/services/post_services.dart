@@ -145,7 +145,8 @@ class PostServices {
             'https://outofmemoryerror-code-executer-container.azurewebsites.net/$nomLanguage/$uidPost/$uidPerson'),
         headers: {'Accept': 'application/json'});
 
-    String str = jsonDecode(resp.body);
+    String str = resp.body;
+    // print("hello word      $str");
     return str;
   }
 

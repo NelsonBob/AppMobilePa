@@ -119,20 +119,14 @@ class _ListViewPosts extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final postBloc = BlocProvider.of<PostBloc>(context);
-
-    String Body = postService.createExecutorMessage(
-        "python", posts.postUid, posts.personUid);
-
-    print("{hello  ooll  $Body}");
-
     final List<String> listImages = posts.images.split(',');
     final time = timeago.format(posts.createdAt, locale: 'us');
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Container(
         margin: const EdgeInsets.only(bottom: 5.0),
-        height: 350,
+        height: 500,
         width: size.width,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0), color: Colors.grey[100]),
@@ -174,7 +168,7 @@ class _ListViewPosts extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 5.0),
                       Row(
                         children: [
                           Flexible(
@@ -183,7 +177,7 @@ class _ListViewPosts extends StatelessWidget {
                           )
                         ],
                       ),
-                      const SizedBox(height: 50.0),
+                      const SizedBox(height: 10.0),
                       Row(
                         children: [
                           Flexible(
@@ -191,17 +185,37 @@ class _ListViewPosts extends StatelessWidget {
                           )
                         ],
                       ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                                '${postService.ProgramationService("python", posts.postUid, posts.personUid)}'),
+                      const SizedBox(height: 10.0),
+                      SizedBox(
+                        width: size.width,
+                        height: 240,
+                        child: Expanded(
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: FutureBuilder(
+                                  future: postService.ProgramationService(
+                                      "python", posts.postUid, posts.personUid),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<String> text) {
+                                    return Text(
+                                      text.data!
+                                          .replaceAll('\\n', '\n')
+                                          .replaceAll('\r', "")
+                                          .toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 12),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 30.0),
                   Positioned(
                       bottom: 15,
                       child: Container(
