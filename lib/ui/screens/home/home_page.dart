@@ -186,31 +186,33 @@ class _ListViewPosts extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10.0),
-                      SizedBox(
-                        width: size.width,
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 8.0),
                         height: 240,
-                        child: Expanded(
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: FutureBuilder(
-                                  future: postService.ProgramationService(
-                                      "python", posts.postUid, posts.personUid),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<String> text) {
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: FutureBuilder(
+                                future: postService.ProgramationService(
+                                    "python", posts.postUid, posts.personUid),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> text) {
+                                  if (text.hasData) {
                                     return Text(
                                       text.data!
                                           .replaceAll('\\n', '\n')
-                                          .replaceAll('\r', "")
-                                          .toString(),
+                                          .substring(1)
+                                          .replaceAll('\\r', '\r')
+                                          .replaceAll('\\', ''),
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 12),
                                     );
-                                  },
-                                ),
+                                  }
+                                  return const Text('Hello');
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
